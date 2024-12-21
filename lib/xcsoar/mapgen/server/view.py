@@ -33,6 +33,7 @@ def output(filename, method="html", encoding="utf-8", **options):
 
 
 def render(*args, **kwargs):
+    cherrypy.log(f'In render(): args = {args}, kwargs = {kwargs}')
     """Function to render the given data to the template specified via the
     ``@output`` decorator.
     """
@@ -41,6 +42,7 @@ def render(*args, **kwargs):
         template = loader.load(args[0])
     else:
         template = cherrypy.thread_data.template
+        
     ctxt = Context(url=cherrypy.url)
     ctxt.push(kwargs)
     return template.generate(ctxt)

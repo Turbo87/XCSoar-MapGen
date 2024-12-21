@@ -37,6 +37,7 @@ class __CSVLine:
 
 
 def __parse_altitude(str):
+    # cherrypy.log(f'in parse_altitude({str})')
     str = str.lower()
     if str.endswith("ft") or str.endswith("f"):
         str = str.rstrip("ft")
@@ -77,7 +78,7 @@ def __parse_length(str):
 
 def parse_seeyou_waypoints(lines, bounds=None):
     waypoint_list = WaypointList()
-    cherrypy.log('in parse_seeyou_waypoints function:')
+    # cherrypy.log('in parse_seeyou_waypoints function:')
 
     #gfp 241210: modified to wait for header line before processing
     #gfp 241210: added 'ISO-8859-2' decoding for correct cherrypy logging display
@@ -95,8 +96,6 @@ def parse_seeyou_waypoints(lines, bounds=None):
         wpnum = wpnum + 1
         line = byteline.decode('ISO-8859-2') #gfp 241210: added 'ISO-8859-2' decoding for correct cherrypy logging display
         line = line.strip()
-        if line == "name,code,country,lat,lon,elev,style,rwdir,rwlen,freq,desc":
-            continue
 
         # cherrypy.log('in for loop: wpnum = %s line = %s' %(wpnum, line))
 #        cherrypy.log(f'for loop row {wpnum}: {line}')
@@ -106,11 +105,10 @@ def parse_seeyou_waypoints(lines, bounds=None):
             continue
 
         if header in line: 
-            cherrypy.log(f'header line found at row {wpnum}: {line}')
+            # cherrypy.log(f'header line found at row {wpnum}: {line}')
             continue #skip to next line (first waypoint line)
 
         if line == "-----Related Tasks-----":
-            cherrypy.log('In -----Related Tasks----: line = %s' % line)
             break
 
         # cherrypy.log('in for loop before line = __CSVLine(line): wpnum = %s' %wpnum)
@@ -179,6 +177,9 @@ def parse_seeyou_waypoints(lines, bounds=None):
         # cherrypy.log(f'bounds = {bounds}')
  
         waypoint_list.append(wp)
+     
+
+    return waypoint_list
      
 
     return waypoint_list

@@ -66,12 +66,12 @@ class Server(object):
     @cherrypy.expose
     @view.output("index.html")
     def index(self, **params):
-        cherrypy.log('At the top of the index.html function, with params = %s' % params)
+        # cherrypy.log('At the top of the index.html function, with params = %s' % params)
         if cherrypy.request.method != "POST":
             return view.render()
 
         name = params["name"].strip()
-        cherrypy.log('params: name = %s, mail = %s, detail = %s' % (name, params["mail"], params["level_of_detail"]))
+        # cherrypy.log('params: name = %s, mail = %s, detail = %s' % (name, params["mail"], params["level_of_detail"]))
 
         if name == "":
             return view.render(error="No map name given!") | HTMLFormFiller(data=params)
@@ -86,8 +86,8 @@ class Server(object):
 
         selection = params["selection"]
         waypoint_file = params["waypoint_file"]
-        cherrypy.log('waypoint_file = %s, waypoint_filename = %s, selection = %s' % (waypoint_file.file, waypoint_file.filename, selection))
-        cherrypy.log('waypoint_file = %s' % waypoint_file.file)
+        # cherrypy.log('waypoint_file = %s, waypoint_filename = %s, selection = %s' % (waypoint_file.file, waypoint_file.filename, selection))
+        # cherrypy.log('waypoint_file = %s' % waypoint_file.file)
 
         #gfp added to determine 'waypoint_file' type
         # cherrypy.log('displaying lines from waypoint_file.file')
@@ -104,7 +104,7 @@ class Server(object):
 
             try:
                 filename = waypoint_file.filename.lower()
-                cherrypy.log('in TRY block filename = %s' % filename)
+                # cherrypy.log('in TRY block filename = %s' % filename)
 
                 if not filename.endswith(".dat") and (
                     filename.endswith(".dat") or not filename.endswith(".cup")
