@@ -114,12 +114,8 @@ def parse_seeyou_waypoints(lines, bounds=None):
         # cherrypy.log('in for loop before line = __CSVLine(line): wpnum = %s' %wpnum)
 
         fields = []
-        # line = __CSVLine(line)
         CSVline = __CSVLine(line)
         # cherrypy.log(f'row {wpnum}: line = __CSVLine(line) ->> {line}')
-
-        # while line.has_next():
-        #     fields.append(next(line))
 
         while CSVline.has_next():
             fields.append(next(CSVline))
@@ -131,8 +127,6 @@ def parse_seeyou_waypoints(lines, bounds=None):
         # for field in fields:
         #     cherrypy.log(f' field[{idx}] = {field}')
         #     idx += 1
-
-   
 
 
         if len(fields) < 6:

@@ -12,14 +12,11 @@ from xcsoar.mapgen.server import view
 from xcsoar.mapgen.georect import GeoRect
 from xcsoar.mapgen.waypoints.parser import parse_waypoint_file
 
-#cherrypy.config.update({'log.screen': True})
 cherrypy.config.update({
          'log.screen': True,  # Log to stdout
          'log.error_file': 'error.log',  # Log errors to a file
          'log.access_file': 'access.log'  # Log access to a file
      })
-
-
 
 class Server(object):
     def __init__(self, dir_jobs):
@@ -66,7 +63,6 @@ class Server(object):
     @cherrypy.expose
     @view.output("index.html")
     def index(self, **params):
-        # cherrypy.log('At the top of the index.html function, with params = %s' % params)
         if cherrypy.request.method != "POST":
             return view.render()
 
@@ -104,7 +100,6 @@ class Server(object):
 
             try:
                 filename = waypoint_file.filename.lower()
-                # cherrypy.log('in TRY block filename = %s' % filename)
 
                 if not filename.endswith(".dat") and (
                     filename.endswith(".dat") or not filename.endswith(".cup")
@@ -132,11 +127,6 @@ class Server(object):
 
                 cherrypy.log(f'in server.py: {filename} bounds: left = {desc.bounds.left:.3f}, right: {desc.bounds.right:.3f}, top: {desc.bounds.top:.3f}, bot {desc.bounds.bottom:.3f}')
                 return view.render(error=f"left: {desc.bounds.left:.3f}, right: {desc.bounds.right:.3f}, top: {desc.bounds.top:.3f}, bot {desc.bounds.bottom:.3f}")| HTMLFormFiller(data=params)
-                # return view.render(error="left")| HTMLFormFiller(data=params)
-                time.sleep(9)
-                return view.render(
-                    error="Just after esc.bounds.left display " + waypoint_file.filename
-                ) | HTMLFormFiller(data=params)
 
             except:
                 return view.render(

@@ -29,8 +29,6 @@ def parse_waypoint_file(filename, file=None):
         # cherrypy.log('in parse_waypoint_file filename.lower().endswith(".cup"): filename = %s' % filename)
         return parse_seeyou_waypoints(lines)#241207 gfp bugfix:
     else:
-        # cherrypy.log('in parse_waypoint_file ELSE block: filename = %s' % filename)
-
         raise RuntimeError(
             "Waypoint file {} has an unsupported format.".format(filename)
         )

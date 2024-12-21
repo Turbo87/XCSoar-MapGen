@@ -33,7 +33,7 @@ def output(filename, method="html", encoding="utf-8", **options):
 
 
 def render(*args, **kwargs):
-    cherrypy.log(f'In render(): args = {args}, kwargs = {kwargs}')
+    # cherrypy.log(f'In render(): args = {args}, kwargs = {kwargs}')
     """Function to render the given data to the template specified via the
     ``@output`` decorator.
     """
