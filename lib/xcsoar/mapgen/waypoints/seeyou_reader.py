@@ -3,7 +3,6 @@ from xcsoar.mapgen.waypoints.waypoint import Waypoint
 from xcsoar.mapgen.waypoints.list import WaypointList
 
 
-
 class __CSVLine:
     def __init__(self, line):
         self.__line = line
@@ -77,26 +76,26 @@ def __parse_length(str):
 def parse_seeyou_waypoints(lines, bounds=None):
     waypoint_list = WaypointList()
 
-    header = 'name,code,country,lat,lon,elev,style,rwdir,rwlen,freq,desc'
+    header = "name,code,country,lat,lon,elev,style,rwdir,rwlen,freq,desc"
 
     wpnum = 0
     for byteline in lines:
         wpnum = wpnum + 1
-        line = byteline.decode('UTF-8')
+        line = byteline.decode("UTF-8")
 
-        #check for blank lines or comments
+        # check for blank lines or comments
         if line == "" or line.startswith("*"):
             continue
 
-        if header in line: 
-            continue #skip to next line (first waypoint line)
+        if header in line:
+            continue  # skip to next line (first waypoint line)
 
         if line == "-----Related Tasks-----":
             break
 
         fields = []
         CSVline = __CSVLine(line)
-    
+
         while CSVline.has_next():
             fields.append(next(CSVline))
 
@@ -117,7 +116,7 @@ def parse_seeyou_waypoints(lines, bounds=None):
         wp.altitude = __parse_altitude(fields[5])
         wp.name = fields[0].strip()
         wp.country_code = fields[2].strip()
-    
+
         if len(fields) > 6 and len(fields[6]) > 0:
             wp.cup_type = int(fields[6])
 
@@ -133,11 +132,8 @@ def parse_seeyou_waypoints(lines, bounds=None):
         if len(fields) > 10 and len(fields[10]) > 0:
             wp.comment = fields[10].strip()
 
-
         waypoint_list.append(wp)
-     
 
     return waypoint_list
-     
 
     return waypoint_list

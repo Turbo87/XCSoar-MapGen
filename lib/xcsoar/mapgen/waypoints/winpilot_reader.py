@@ -2,6 +2,7 @@
 from xcsoar.mapgen.waypoints.waypoint import Waypoint
 from xcsoar.mapgen.waypoints.list import WaypointList
 
+
 def __parse_altitude(str):
     str = str.lower()
     if str.endswith("ft") or str.endswith("f"):
@@ -15,7 +16,7 @@ def __parse_altitude(str):
     return int(int_alt)
 
 
-#Winpilot .DAT file lat/lon formats
+# Winpilot .DAT file lat/lon formats
 # Latitude, Longitude: in one of the following formats (ss=seconds, dd = decimals):
 # dd:mm:ss (for example: 36:15:20N)
 # dd:mm.d (for example: 36:15.3N)
@@ -52,11 +53,11 @@ def parse_winpilot_waypoints(lines):
     for byteline in lines:
         wpnum += 1
 
-        line = byteline.decode('UTF-8')
+        line = byteline.decode("UTF-8")
         line = line.strip()
         if line == "" or line.startswith("*"):
             continue
-    
+
         fields = line.split(",")
         if len(fields) < 6:
             continue

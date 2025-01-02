@@ -3,6 +3,7 @@ from xcsoar.mapgen.waypoints.waypoint import Waypoint
 from xcsoar.mapgen.georect import GeoRect
 import cherrypy
 
+
 class WaypointList:
     def __init__(self):
         self.__list = []

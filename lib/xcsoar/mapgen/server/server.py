@@ -12,11 +12,14 @@ from xcsoar.mapgen.server import view
 from xcsoar.mapgen.georect import GeoRect
 from xcsoar.mapgen.waypoints.parser import parse_waypoint_file
 
-cherrypy.config.update({
-         'log.screen': True,  # Log to stdout
-         'log.error_file': 'error.log',  # Log errors to a file
-         'log.access_file': 'access.log'  # Log access to a file
-     })
+cherrypy.config.update(
+    {
+        "log.screen": True,  # Log to stdout
+        "log.error_file": "error.log",  # Log errors to a file
+        "log.access_file": "access.log",  # Log access to a file
+    }
+)
+
 
 class Server(object):
     def __init__(self, dir_jobs):
@@ -67,7 +70,7 @@ class Server(object):
             return view.render()
 
         name = params["name"].strip()
- 
+
         if name == "":
             return view.render(error="No map name given!") | HTMLFormFiller(data=params)
 
@@ -99,8 +102,8 @@ class Server(object):
                             waypoint_file.filename
                         )
                     )
-    
-                #241212 better way to write this boolean expression (filename already forced to lowercase)
+
+                # 241212 better way to write this boolean expression (filename already forced to lowercase)
                 if not filename.endswith(".dat") and not filename.endswith(".cup"):
                     raise RuntimeError(
                         "Waypoint file {} has an unsupported format.".format(
@@ -115,7 +118,9 @@ class Server(object):
                     "waypoints.cup" if filename.endswith(".cup") else "waypoints.dat"
                 )
 
-                return view.render(error=f"left: {desc.bounds.left:.3f}, right: {desc.bounds.right:.3f}, top: {desc.bounds.top:.3f}, bot {desc.bounds.bottom:.3f}")| HTMLFormFiller(data=params)
+                return view.render(
+                    error=f"left: {desc.bounds.left:.3f}, right: {desc.bounds.right:.3f}, top: {desc.bounds.top:.3f}, bot {desc.bounds.bottom:.3f}"
+                ) | HTMLFormFiller(data=params)
 
             except:
                 return view.render(
@@ -154,7 +159,7 @@ class Server(object):
 
         if desc.waypoint_file:
             waypoint_file.file.seek(0)
- 
+
             f = open(job.file_path(desc.waypoint_file), "w")
             try:
                 shutil.copyfileobj(fsrc=waypoint_file.file, fdst=f, length=1024 * 64)
@@ -186,5 +191,3 @@ class Server(object):
         return cherrypy.lib.static.serve_download(
             job.map_file(), job.description.name + ".xcm"
         )
-
-
