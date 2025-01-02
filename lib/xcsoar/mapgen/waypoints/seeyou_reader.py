@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from xcsoar.mapgen.waypoints.waypoint import Waypoint
 from xcsoar.mapgen.waypoints.list import WaypointList
-import cherrypy
 
 
 
@@ -37,7 +36,6 @@ class __CSVLine:
 
 
 def __parse_altitude(str):
-    # cherrypy.log(f'in parse_altitude({str})')
     str = str.lower()
     if str.endswith("ft") or str.endswith("f"):
         str = str.rstrip("ft")
@@ -78,56 +76,29 @@ def __parse_length(str):
 
 def parse_seeyou_waypoints(lines, bounds=None):
     waypoint_list = WaypointList()
-    # cherrypy.log('in parse_seeyou_waypoints function:')
-
-    #gfp 241210: modified to wait for header line before processing
-    #gfp 241210: added 'ISO-8859-2' decoding for correct cherrypy logging display
-
-    #gfp 241208 added to print out all lines in selected .CUP file
-    # wpnum = 0
-    # for byteline in lines:
-    #     wpnum = wpnum + 1
-    #     line = byteline.decode('ISO-8859-2')
 
     header = 'name,code,country,lat,lon,elev,style,rwdir,rwlen,freq,desc'
 
     wpnum = 0
     for byteline in lines:
         wpnum = wpnum + 1
-        line = byteline.decode('ISO-8859-2') #gfp 241210: added 'ISO-8859-2' decoding for correct cherrypy logging display
-        line = line.strip()
-
-        # cherrypy.log('in for loop: wpnum = %s line = %s' %(wpnum, line))
-#        cherrypy.log(f'for loop row {wpnum}: {line}')
+        line = byteline.decode('UTF-8')
 
         #check for blank lines or comments
         if line == "" or line.startswith("*"):
             continue
 
         if header in line: 
-            # cherrypy.log(f'header line found at row {wpnum}: {line}')
             continue #skip to next line (first waypoint line)
 
         if line == "-----Related Tasks-----":
             break
 
-        # cherrypy.log('in for loop before line = __CSVLine(line): wpnum = %s' %wpnum)
-
         fields = []
         CSVline = __CSVLine(line)
-        # cherrypy.log(f'row {wpnum}: line = __CSVLine(line) ->> {line}')
-
+    
         while CSVline.has_next():
             fields.append(next(CSVline))
-
-
-        #display fields for this line
-        # cherrypy.log('extracted fields for line = %s' %wpnum)
-        # idx = 0
-        # for field in fields:
-        #     cherrypy.log(f' field[{idx}] = {field}')
-        #     idx += 1
-
 
         if len(fields) < 6:
             continue
@@ -146,10 +117,7 @@ def parse_seeyou_waypoints(lines, bounds=None):
         wp.altitude = __parse_altitude(fields[5])
         wp.name = fields[0].strip()
         wp.country_code = fields[2].strip()
-
-        # cherrypy.log('waypoint %s: name = %s' %(wpnum, wp.name))
-
-
+    
         if len(fields) > 6 and len(fields[6]) > 0:
             wp.cup_type = int(fields[6])
 
@@ -165,11 +133,7 @@ def parse_seeyou_waypoints(lines, bounds=None):
         if len(fields) > 10 and len(fields[10]) > 0:
             wp.comment = fields[10].strip()
 
-        # cherrypy.log(f'waypoint {wpnum}: {wp.name}, {wp.lat:.3f}, {wp.lon:.3f}')
 
-        #gfp print out current 'bounds' params
-        # cherrypy.log(f'bounds = {bounds}')
- 
         waypoint_list.append(wp)
      
 
