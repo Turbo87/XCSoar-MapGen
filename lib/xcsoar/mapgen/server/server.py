@@ -12,14 +12,6 @@ from xcsoar.mapgen.server import view
 from xcsoar.mapgen.georect import GeoRect
 from xcsoar.mapgen.waypoints.parser import parse_waypoint_file
 
-cherrypy.config.update(
-    {
-        "log.screen": True,  # Log to stdout
-        "log.error_file": "error.log",  # Log errors to a file
-        "log.access_file": "access.log",  # Log access to a file
-    }
-)
-
 
 class Server(object):
     def __init__(self, dir_jobs):
