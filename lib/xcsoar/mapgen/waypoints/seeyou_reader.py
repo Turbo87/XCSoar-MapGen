@@ -135,5 +135,3 @@ def parse_seeyou_waypoints(lines, bounds=None):
         waypoint_list.append(wp)
 
     return waypoint_list
-
-    return waypoint_list
