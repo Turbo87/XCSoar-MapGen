@@ -95,7 +95,6 @@ class Server(object):
                         )
                     )
 
-                # 241212 better way to write this boolean expression (filename already forced to lowercase)
                 if not filename.endswith(".dat") and not filename.endswith(".cup"):
                     raise RuntimeError(
                         "Waypoint file {} has an unsupported format.".format(
